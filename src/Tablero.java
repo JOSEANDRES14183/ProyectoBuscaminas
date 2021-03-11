@@ -1,21 +1,25 @@
 import java.util.Random;
 public class Tablero {
 
-    private int tamaño[][];
+    private Casilla casillas[][];
     private int minas;
     private Dificultad dificultad;
 
     public Tablero(Dificultad dificultad){
         this.dificultad=dificultad;
-        tamaño = new int [this.dificultad.getFilas()][this.dificultad.getColumnas()];
+        casillas = new Casilla [this.dificultad.getFilas()][this.dificultad.getColumnas()];
         minas = dificultad.getMinas();
     }
 
 
     public void generarMinas(){
-        Random random = new Random();
         for(int i=0;i<minas;i++){
-
+            casillas[getRandomNumber(dificultad.getFilas())][getRandomNumber(dificultad.getColumnas())].assignMine();
         }
+    }
+
+    public int getRandomNumber(int max){
+        Random random = new Random();
+        return (int)((Math.random()*(max - 1)) + 1);
     }
 }
