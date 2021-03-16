@@ -3,6 +3,7 @@ public class Casilla {
     private boolean hasMine;
     private boolean covered;
     private boolean flagged;
+    private int nearbyMines;
 
     public Casilla(){
         this.hasMine=false;
@@ -20,7 +21,6 @@ public class Casilla {
             //Metodo para hacer uncover a las celdas cercanas que no tengan minas
         }
     }
-
 
     public void flag(){
         this.flagged=true;
@@ -48,6 +48,8 @@ public class Casilla {
         return this.flagged;
     }
 
-
+    public void setNearbyMines(int nearbyMines){
+        this.nearbyMines=nearbyMines;
+    }
 
 }
