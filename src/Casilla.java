@@ -21,16 +21,33 @@ public class Casilla {
         }
     }
 
+
     public void flag(){
         this.flagged=true;
+        this.covered=false;
     }
 
     public void unflag(){
         this.flagged=false;
+        this.covered=true;
     }
 
     public void assignMine(){
         hasMine=true;
     }
+
+    public boolean getHasMine(){
+        return this.hasMine;
+    }
+
+    public boolean getCovered(){
+        return this.covered;
+    }
+
+    public boolean getFlagged(){
+        return this.flagged;
+    }
+
+
 
 }

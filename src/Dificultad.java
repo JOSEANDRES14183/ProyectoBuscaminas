@@ -8,7 +8,7 @@ public enum Dificultad {
     private int columnas;
     private int minas;
 
-    private Dificultad(int filas, int columnas, int minas){
+    Dificultad(int filas, int columnas, int minas){
         this.filas=filas;
         this.columnas=columnas;
         this.minas=minas;
