@@ -15,18 +15,18 @@ public class Main {
         switch (opcDif){
             case 1:
                 tablero = new Tablero(Dificultad.FACIL);
-                tablero.printTablero();
                 tablero.generateMines();
+                tablero.printTablero();
                 break;
             case 2:
                 tablero = new Tablero(Dificultad.MEDIA);
-                tablero.printTablero();
                 tablero.generateMines();
+                tablero.printTablero();
                 break;
             case 3:
                 tablero = new Tablero(Dificultad.DIFICIL);
-                tablero.printTablero();
                 tablero.generateMines();
+                tablero.printTablero();
                 break;
         }
 
