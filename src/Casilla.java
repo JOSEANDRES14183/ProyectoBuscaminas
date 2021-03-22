@@ -52,4 +52,6 @@ public class Casilla {
         this.nearbyMines=nearbyMines;
     }
 
+    public int getNearbyMines(){return this.nearbyMines;}
+
 }

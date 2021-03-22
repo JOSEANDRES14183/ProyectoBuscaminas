@@ -10,6 +10,9 @@ public class Tablero {
         casillas = new Casilla [this.dificultad.getFilas()][this.dificultad.getColumnas()];
         minas = dificultad.getMinas();
         this.instanceCells();
+        this.generateMines();
+        this.printTablero();
+        this.detectNearbyMines();
     }
 
     public void generateMines(){
@@ -26,13 +29,14 @@ public class Tablero {
             }
 
             casillas[filaRand][columnaRand].assignMine();
+            casillas[filaRand][columnaRand].uncover();
         }
     }
 
     public void printTablero(){
         for(int i=0;i < dificultad.getFilas(); i++){
             for(int j=0;j < dificultad.getColumnas();j++){
-                if(casillas[i][j].getCovered()){
+                /*if(casillas[i][j].getCovered()){
                     System.out.print("■ ");
                 }
                 if(casillas[i][j].getFlagged()){
@@ -40,6 +44,12 @@ public class Tablero {
                 }
                 if(!casillas[i][j].getCovered()){
                     System.out.print(" ");
+                }*/
+                if(casillas[i][j].getCovered()){
+                    System.out.print(casillas[i][j].getNearbyMines() + " ");
+                }
+                if(casillas[i][j].getHasMine()){
+                    System.out.print("X" + " ");
                 }
             }
             System.out.println();
@@ -48,34 +58,163 @@ public class Tablero {
 
     public void detectNearbyMines(){
         int nearbyMines=0;
-        boolean outOfBounds=false;
+        boolean specialCell=false;
         for(int i=0;i< dificultad.getFilas();i++){
             for(int j=0;j< dificultad.getColumnas();j++) {
-                if (casillas[i - 1][j].getHasMine() && i-1!=-1) {
-                    nearbyMines++;
+                if (i == 0 && j == 0) {
+                    if (casillas[i + 1][j].getHasMine()) {
+                        nearbyMines++;
+                    }
+                    if (casillas[i][j + 1].getHasMine()) {
+                        nearbyMines++;
+                    }
+                    if (casillas[i + 1][j + 1].getHasMine()) {
+                        nearbyMines++;
+                    }
+                    specialCell=true;
                 }
-                if (casillas[i + 1][j].getHasMine() && i+1!= dificultad.getFilas()) {
-                    nearbyMines++;
+                if (i == 0 && j != 0 && j != dificultad.getColumnas() - 1) {
+                    if (casillas[i][j + 1].getHasMine()) {
+                        nearbyMines++;
+                    }
+                    if (casillas[i][j - 1].getHasMine()) {
+                        nearbyMines++;
+                    }
+                    if (casillas[i + 1][j].getHasMine()) {
+                        nearbyMines++;
+                    }
+                    if (casillas[i + 1][j - 1].getHasMine()) {
+                        nearbyMines++;
+                    }
+                    if (casillas[i + 1][j + 1].getHasMine()) {
+                        nearbyMines++;
+                    }
+                    specialCell=true;
                 }
-                if (casillas[i][j - 1].getHasMine() && j-1!=-1) {
-                    nearbyMines++;
+
+                //ESTE TIPO DE COLUMNA DA FALLO. NO SE INCREMENTA NEARBYMINES.
+                if (i != 0 && i != dificultad.getFilas() - 1 && j == 0) {
+                    if (casillas[i + 1][j].getHasMine()) {
+                        nearbyMines++;
+                    }
+                    if (casillas[i - 1][j].getHasMine()) {
+                        nearbyMines++;
+                    }
+                    if (casillas[i + 1][j + 1].getHasMine()) {
+                        nearbyMines++;
+                    }
+                    if (casillas[i - 1][j + 1].getHasMine()) {
+                        nearbyMines++;
+                    }
+                    specialCell=true;
                 }
-                if (casillas[i][j + 1].getHasMine() && j+1!=dificultad.getColumnas()) {
-                    nearbyMines++;
+
+                if (i == dificultad.getFilas() - 1 && j == 0) {
+                    if (casillas[i - 1][j].getHasMine()) {
+                        nearbyMines++;
+                    }
+                    if (casillas[i][j + 1].getHasMine()) {
+                        nearbyMines++;
+                    }
+                    if (casillas[i - 1][j + 1].getHasMine()) {
+                        nearbyMines++;
+                    }
+                    specialCell=true;
                 }
-                if (casillas[i + 1][j - 1].getHasMine() && i+1!= dificultad.getFilas() && j-1!=-1) {
-                    nearbyMines++;
+
+                if (i == 0 && j == dificultad.getColumnas() - 1) {
+                    if (casillas[i + 1][j].getHasMine()) {
+                        nearbyMines++;
+                    }
+                    if (casillas[i][j - 1].getHasMine()) {
+                        nearbyMines++;
+                    }
+                    if (casillas[i + 1][j - 1].getHasMine()) {
+                        nearbyMines++;
+                    }
+                    specialCell=true;
                 }
-                if (casillas[i - 1][j - 1].getHasMine()) {
-                    nearbyMines++;
+
+                if (i != 0 && i != dificultad.getFilas() - 1 && j == dificultad.getColumnas() - 1) {
+                    if (casillas[i + 1][j].getHasMine()) {
+                        nearbyMines++;
+                    }
+                    if (casillas[i - 1][j].getHasMine()) {
+                        nearbyMines++;
+                    }
+                    if (casillas[i][j - 1].getHasMine()) {
+                        nearbyMines++;
+                    }
+                    if (casillas[i - 1][j - 1].getHasMine()) {
+                        nearbyMines++;
+                    }
+                    if (casillas[i + 1][j - 1].getHasMine()) {
+                        nearbyMines++;
+                    }
+                    specialCell=true;
                 }
-                if (casillas[i - 1][j + 1].getHasMine()) {
-                    nearbyMines++;
+
+                if (i == dificultad.getFilas() - 1 && j == dificultad.getColumnas() - 1) {
+                    if (casillas[i - 1][j].getHasMine()) {
+                        nearbyMines++;
+                    }
+                    if (casillas[i][j - 1].getHasMine()) {
+                        nearbyMines++;
+                    }
+                    if (casillas[i - 1][j - 1].getHasMine()) {
+                        nearbyMines++;
+                    }
+                    specialCell=true;
                 }
-                if (casillas[i + 1][j + 1].getHasMine()) {
-                    nearbyMines++;
+
+                if (i == dificultad.getFilas() - 1 && j != 0 && j != dificultad.getColumnas() - 1) {
+                    if (casillas[i][j - 1].getHasMine()) {
+                        nearbyMines++;
+                    }
+                    if (casillas[i][j + 1].getHasMine()) {
+                        nearbyMines++;
+                    }
+                    if (casillas[i - 1][j].getHasMine()) {
+                        nearbyMines++;
+                    }
+                    if (casillas[i - 1][j - 1].getHasMine()) {
+                        nearbyMines++;
+                    }
+                    if (casillas[i - 1][j + 1].getHasMine()) {
+                        nearbyMines++;
+                    }
+                    specialCell=true;
+                }
+
+                if(!specialCell) {
+                    if (casillas[i - 1][j].getHasMine() && i - 1 != -1) {
+                        nearbyMines++;
+                    }
+                    if (casillas[i + 1][j].getHasMine() && i + 1 != dificultad.getFilas()) {
+                        nearbyMines++;
+                    }
+                    if (casillas[i][j - 1].getHasMine() && j - 1 != -1) {
+                        nearbyMines++;
+                    }
+                    if (casillas[i][j + 1].getHasMine() && j + 1 != dificultad.getColumnas()) {
+                        nearbyMines++;
+                    }
+                    if (casillas[i + 1][j - 1].getHasMine() && i + 1 != dificultad.getFilas() && j - 1 != -1) {
+                        nearbyMines++;
+                    }
+                    if (casillas[i - 1][j - 1].getHasMine() && i - 1 != -1 && j - 1 != 1) {
+                        nearbyMines++;
+                    }
+                    if (casillas[i - 1][j + 1].getHasMine() && i - 1 != -1 && j + 1 != dificultad.getColumnas()) {
+                        nearbyMines++;
+                    }
+                    if (casillas[i + 1][j + 1].getHasMine() && i + 1 != dificultad.getFilas() && j - 1 != dificultad.getColumnas()) {
+                        nearbyMines++;
+                    }
                 }
                 casillas[i][j].setNearbyMines(nearbyMines);
+                nearbyMines = 0;
+                specialCell=false;
             }
         }
 
