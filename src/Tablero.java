@@ -11,7 +11,7 @@ public class Tablero {
         minas = dificultad.getMinas();
         this.instanceCells();
         this.generateMines();
-        this.printTablero();
+        //this.printTablero();
         this.detectNearbyMines();
     }
 
@@ -92,7 +92,6 @@ public class Tablero {
                     specialCell=true;
                 }
 
-                //ESTE TIPO DE COLUMNA DA FALLO. NO SE INCREMENTA NEARBYMINES.
                 if (i != 0 && i != dificultad.getFilas() - 1 && j == 0) {
                     if (casillas[i + 1][j].getHasMine()) {
                         nearbyMines++;
@@ -104,6 +103,9 @@ public class Tablero {
                         nearbyMines++;
                     }
                     if (casillas[i - 1][j + 1].getHasMine()) {
+                        nearbyMines++;
+                    }
+                    if(casillas[i][j + 1].getHasMine()){
                         nearbyMines++;
                     }
                     specialCell=true;
@@ -187,28 +189,28 @@ public class Tablero {
                 }
 
                 if(!specialCell) {
-                    if (casillas[i - 1][j].getHasMine() && i - 1 != -1) {
+                    if (casillas[i - 1][j].getHasMine()) {
                         nearbyMines++;
                     }
-                    if (casillas[i + 1][j].getHasMine() && i + 1 != dificultad.getFilas()) {
+                    if (casillas[i + 1][j].getHasMine()) {
                         nearbyMines++;
                     }
-                    if (casillas[i][j - 1].getHasMine() && j - 1 != -1) {
+                    if (casillas[i][j - 1].getHasMine()) {
                         nearbyMines++;
                     }
-                    if (casillas[i][j + 1].getHasMine() && j + 1 != dificultad.getColumnas()) {
+                    if (casillas[i][j + 1].getHasMine()) {
                         nearbyMines++;
                     }
-                    if (casillas[i + 1][j - 1].getHasMine() && i + 1 != dificultad.getFilas() && j - 1 != -1) {
+                    if (casillas[i + 1][j - 1].getHasMine()) {
                         nearbyMines++;
                     }
-                    if (casillas[i - 1][j - 1].getHasMine() && i - 1 != -1 && j - 1 != 1) {
+                    if (casillas[i - 1][j - 1].getHasMine()) {
                         nearbyMines++;
                     }
-                    if (casillas[i - 1][j + 1].getHasMine() && i - 1 != -1 && j + 1 != dificultad.getColumnas()) {
+                    if (casillas[i - 1][j + 1].getHasMine()) {
                         nearbyMines++;
                     }
-                    if (casillas[i + 1][j + 1].getHasMine() && i + 1 != dificultad.getFilas() && j - 1 != dificultad.getColumnas()) {
+                    if (casillas[i + 1][j + 1].getHasMine()) {
                         nearbyMines++;
                     }
                 }
