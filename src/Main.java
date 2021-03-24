@@ -26,7 +26,9 @@ public class Main {
                 tablero = new Tablero(Dificultad.MEDIA);
                 break;
         }
+
         tablero.printTablero();
 
     }
+
 }

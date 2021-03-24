@@ -11,7 +11,6 @@ public class Tablero {
         minas = dificultad.getMinas();
         this.instanceCells();
         this.generateMines();
-        //this.printTablero();
         this.detectNearbyMines();
     }
 
@@ -29,28 +28,27 @@ public class Tablero {
             }
 
             casillas[filaRand][columnaRand].assignMine();
-            casillas[filaRand][columnaRand].uncover();
         }
     }
 
     public void printTablero(){
         for(int i=0;i < dificultad.getFilas(); i++){
             for(int j=0;j < dificultad.getColumnas();j++){
-                /*if(casillas[i][j].getCovered()){
+                if(casillas[i][j].getCovered()){
                     System.out.print("■ ");
                 }
                 if(casillas[i][j].getFlagged()){
                     System.out.print("▓ ");
                 }
                 if(!casillas[i][j].getCovered()){
-                    System.out.print(" ");
-                }*/
-                if(casillas[i][j].getCovered()){
+                    System.out.print("  ");
+                }
+                /*if(casillas[i][j].getCovered()){
                     System.out.print(casillas[i][j].getNearbyMines() + " ");
                 }
                 if(casillas[i][j].getHasMine()){
                     System.out.print("X" + " ");
-                }
+                }*/
             }
             System.out.println();
         }
@@ -231,9 +229,9 @@ public class Tablero {
         }
     }
 
-    public int getRandomNumber(int max){
+    public int getRandomNumber(int max) {
         Random random = new Random();
-        return (int)((Math.random()*(max - 1)) + 1);
+        return (int) ((Math.random() * (max - 1)) + 1);
     }
 
 
