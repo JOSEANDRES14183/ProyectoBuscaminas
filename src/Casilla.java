@@ -32,6 +32,10 @@ public class Casilla {
         this.covered=true;
     }
 
+    public boolean isFlagged(){
+        return this.flagged;
+    }
+
     public void assignMine(){
         hasMine=true;
     }

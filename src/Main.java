@@ -27,8 +27,33 @@ public class Main {
                 break;
         }
 
-        tablero.printTablero();
-
+        while(true) {
+            tablero.printTablero();
+            System.out.println("");
+            System.out.println("¿Qué acción quieres realizar?");
+            System.out.println("1- Descubrir una celda");
+            System.out.println("2- Poner una bandera");
+            int opc = sc.nextInt();
+            sc.nextLine();
+            System.out.println("Introduce las coordenadas de la celda:");
+            System.out.println("X:");
+            int axisX = sc.nextInt();
+            sc.nextLine();
+            System.out.println("Y:");
+            int axisY = sc.nextInt();
+            sc.nextLine();
+            if (opc==1){
+                tablero.getCasillas()[axisY][axisX].uncover();
+                tablero.uncoverNearbyCells(axisX,axisY);
+            }
+            if(opc==2){
+                if(tablero.getCasillas()[axisY][axisX].isFlagged()){
+                    tablero.getCasillas()[axisY][axisX].unflag();
+                } else {
+                    tablero.getCasillas()[axisY][axisX].flag();
+                }
+            }
+        }
     }
 
 }

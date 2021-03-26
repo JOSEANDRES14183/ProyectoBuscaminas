@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Random;
 public class Tablero {
 
@@ -220,6 +221,38 @@ public class Tablero {
 
     }
 
+    public void uncoverNearbyCells(int x, int y){
+
+        ArrayList <Casilla> uncoveredCells = new ArrayList();
+
+        if(casillas[y-1][x].getNearbyMines()==0 && !casillas[y-1][x].getHasMine() && casillas[y-1][x].getCovered()){
+            uncoveredCells.add(casillas[y-1][x]);
+        }
+        if(casillas[y+1][x].getNearbyMines()==0 && !casillas[y+1][x].getHasMine()){
+            casillas[y+1][x].uncover();
+        }
+        if(casillas[y][x+1].getNearbyMines()==0 && !casillas[y][x+1].getHasMine()){
+            casillas[y][x+1].uncover();
+        }
+        if(casillas[y][x-1].getNearbyMines()==0 && !casillas[y][x-1].getHasMine()){
+            casillas[y][x-1].uncover();
+        }
+        if(casillas[y-1][x-1].getNearbyMines()==0 && !casillas[y-1][x-1].getHasMine()){
+            casillas[y-1][x-1].uncover();
+        }
+        if(casillas[y-1][x+1].getNearbyMines()==0 && !casillas[y-1][x+1].getHasMine()){
+            casillas[y-1][x+1].uncover();
+        }
+        if(casillas[y+1][x-1].getNearbyMines()==0 && !casillas[y+1][x-1].getHasMine()){
+            casillas[y+1][x-1].uncover();
+        }
+        if(casillas[y+1][x+1].getNearbyMines()==0 && !casillas[y+1][x+1].getHasMine()){
+            casillas[y+1][x+1].uncover();
+        }
+    }
+
+
+
     private void instanceCells(){
         for(int i=0;i< dificultad.getFilas();i++){
             for(int j=0;j< dificultad.getColumnas();j++){
@@ -232,6 +265,14 @@ public class Tablero {
     public int getRandomNumber(int max) {
         Random random = new Random();
         return (int) ((Math.random() * (max - 1)) + 1);
+    }
+
+    public Casilla[][] getCasillas(){
+        return this.casillas;
+    }
+
+    public void setCasillas(Casilla[][] casillas){
+        this.casillas=casillas;
     }
 
 
