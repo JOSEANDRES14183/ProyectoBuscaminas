@@ -228,26 +228,26 @@ public class Tablero {
         if(casillas[y-1][x].getNearbyMines()==0 && !casillas[y-1][x].getHasMine() && casillas[y-1][x].getCovered()){
             uncoveredCells.add(casillas[y-1][x]);
         }
-        if(casillas[y+1][x].getNearbyMines()==0 && !casillas[y+1][x].getHasMine()){
-            casillas[y+1][x].uncover();
+        if(casillas[y+1][x].getNearbyMines()==0 && !casillas[y+1][x].getHasMine() && casillas[y+1][x].getCovered()){
+            uncoveredCells.add(casillas[y+1][x]);
         }
-        if(casillas[y][x+1].getNearbyMines()==0 && !casillas[y][x+1].getHasMine()){
-            casillas[y][x+1].uncover();
+        if(casillas[y][x+1].getNearbyMines()==0 && !casillas[y][x+1].getHasMine() && casillas[y][x+1].getCovered()){
+            uncoveredCells.add(casillas[y][x+1]);
         }
-        if(casillas[y][x-1].getNearbyMines()==0 && !casillas[y][x-1].getHasMine()){
-            casillas[y][x-1].uncover();
+        if(casillas[y][x-1].getNearbyMines()==0 && !casillas[y][x-1].getHasMine() && casillas[y][x-1].getCovered()){
+            uncoveredCells.add(casillas[y][x-1]);
         }
-        if(casillas[y-1][x-1].getNearbyMines()==0 && !casillas[y-1][x-1].getHasMine()){
-            casillas[y-1][x-1].uncover();
+        if(casillas[y-1][x-1].getNearbyMines()==0 && !casillas[y-1][x-1].getHasMine() && casillas[y-1][x-1].getCovered()){
+            uncoveredCells.add(casillas[y-1][x-1]);
         }
-        if(casillas[y-1][x+1].getNearbyMines()==0 && !casillas[y-1][x+1].getHasMine()){
-            casillas[y-1][x+1].uncover();
+        if(casillas[y-1][x+1].getNearbyMines()==0 && !casillas[y-1][x+1].getHasMine() && casillas[y-1][x+1].getCovered()){
+            uncoveredCells.add(casillas[y-1][x+1]);
         }
-        if(casillas[y+1][x-1].getNearbyMines()==0 && !casillas[y+1][x-1].getHasMine()){
-            casillas[y+1][x-1].uncover();
+        if(casillas[y+1][x-1].getNearbyMines()==0 && !casillas[y+1][x-1].getHasMine() && casillas[y+1][x+1].getCovered()){
+            uncoveredCells.add(casillas[y+1][x-1]);
         }
-        if(casillas[y+1][x+1].getNearbyMines()==0 && !casillas[y+1][x+1].getHasMine()){
-            casillas[y+1][x+1].uncover();
+        if(casillas[y+1][x+1].getNearbyMines()==0 && !casillas[y+1][x+1].getHasMine() && casillas[y+1][x+1].getCovered()){
+            uncoveredCells.add(casillas[y+1][x+1]);
         }
     }
 
