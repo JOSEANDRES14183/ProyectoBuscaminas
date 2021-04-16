@@ -58,8 +58,10 @@ public class Tablero {
     public void detectNearbyMines(){
         int nearbyMines=0;
         boolean specialCell=false;
+
         for(int i=0;i< dificultad.getFilas();i++){
             for(int j=0;j< dificultad.getColumnas();j++) {
+
                 if (i == 0 && j == 0) {
                     if (casillas[i + 1][j].getHasMine()) {
                         nearbyMines++;
@@ -225,6 +227,56 @@ public class Tablero {
 
         ArrayList <Casilla> uncoveredCells = new ArrayList();
 
+        if (y == 0 && x == 0) {
+            if (casillas[y+1][x].getNearbyMines()==0 && !casillas[y + 1][x].getHasMine() && casillas[y+1][x].getCovered()) {
+                uncoveredCells.add(casillas[y+1][x]);
+            }
+            if (casillas[y][x + 1].getNearbyMines()==0 && !casillas[y][x + 1].getHasMine() && casillas[y][x + 1].getCovered()) {
+                uncoveredCells.add(casillas[y][x + 1]);
+            }
+            if (casillas[y + 1][x + 1].getNearbyMines()==0 && !casillas[y + 1][x + 1].getHasMine() && casillas[y + 1][x + 1].getCovered()) {
+                uncoveredCells.add(casillas[y + 1][x + 1]);
+            }
+        }
+
+        if (y == 0 && x != 0 && x != dificultad.getColumnas() - 1) {
+            if (casillas[y][x + 1].getNearbyMines()==0 && !casillas[y][x + 1].getHasMine() && casillas[y][x + 1].getCovered()) {
+                uncoveredCells.add(casillas[y][x + 1]);
+            }
+            if (casillas[y][x - 1].getNearbyMines()==0 && !casillas[y][x - 1].getHasMine() && casillas[y][x - 1].getCovered()) {
+                uncoveredCells.add(casillas[y][x - 1]);
+            }
+            if (casillas[y + 1][x].getNearbyMines()==0 && !casillas[y + 1][x].getHasMine() && casillas[y + 1][x].getCovered()) {
+                uncoveredCells.add(casillas[y + 1][x]);
+            }
+            if (casillas[y + 1][x - 1].getNearbyMines()==0 && !casillas[y + 1][x - 1].getHasMine() && casillas[y + 1][x - 1].getCovered()) {
+                uncoveredCells.add(casillas[y + 1][x - 1]);
+            }
+            if (casillas[y + 1][x + 1].getNearbyMines()==0 && !casillas[y + 1][x + 1].getHasMine() && casillas[y + 1][x + 1].getCovered()) {
+                uncoveredCells.add(casillas[y + 1][x + 1]);
+            }
+        }
+
+        if (y != 0 && y != dificultad.getFilas() - 1 && x == 0) {
+            if (casillas[y + 1][x].getNearbyMines()==0 && !casillas[y + 1][x].getHasMine() && casillas[y + 1][x].getCovered()) {
+                uncoveredCells.add(casillas[y + 1][x]);
+            }
+            if (casillas[y - 1][x].getNearbyMines()==0 && !casillas[y - 1][x].getHasMine() && casillas[y - 1][x].getCovered()) {
+                uncoveredCells.add(casillas[y - 1][x]);
+            }
+            if (casillas[y + 1][x + 1].getHasMine()) {
+                nearbyMines++;
+            }
+            if (casillas[y - 1][x + 1].getHasMine()) {
+                nearbyMines++;
+            }
+            if(casillas[y][x + 1].getHasMine()){
+                nearbyMines++;
+            }
+            specialCell=true;
+        }
+
+
         if(casillas[y-1][x].getNearbyMines()==0 && !casillas[y-1][x].getHasMine() && casillas[y-1][x].getCovered()){
             uncoveredCells.add(casillas[y-1][x]);
         }
@@ -248,6 +300,11 @@ public class Tablero {
         }
         if(casillas[y+1][x+1].getNearbyMines()==0 && !casillas[y+1][x+1].getHasMine() && casillas[y+1][x+1].getCovered()){
             uncoveredCells.add(casillas[y+1][x+1]);
+        }
+
+        for(Casilla cell:uncoveredCells){
+            cell.uncover();
+            uncoverNearbyCells(getXOfCell(cell),getYOfCell(cell));
         }
     }
 
@@ -273,6 +330,30 @@ public class Tablero {
 
     public void setCasillas(Casilla[][] casillas){
         this.casillas=casillas;
+    }
+
+    private int getXOfCell(Casilla cell){
+        int XOfCell=0;
+        for(int i=0;i< dificultad.getFilas();i++){
+            for(int j=0;i< dificultad.getColumnas();j++){
+                if(cell==casillas[i][j]){
+                    XOfCell=j;
+                }
+            }
+        }
+        return XOfCell;
+    }
+
+    private int getYOfCell(Casilla cell){
+        int YOfCell=0;
+        for(int i=0;i< dificultad.getFilas();i++){
+            for(int j=0;i< dificultad.getColumnas();j++){
+                if(cell==casillas[i][j]){
+                    YOfCell=i;
+                }
+            }
+        }
+        return YOfCell;
     }
 
 
