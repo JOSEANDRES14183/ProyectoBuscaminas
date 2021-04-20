@@ -52,7 +52,7 @@ public class Casilla {
         return this.flagged;
     }
 
-    public void addNearbyMines(int nearbyMines){
+    public void setNearbyMines(int nearbyMines){
         this.nearbyMines+=nearbyMines;
     }
 

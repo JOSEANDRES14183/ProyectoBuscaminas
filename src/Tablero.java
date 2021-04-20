@@ -4,7 +4,6 @@ import java.util.Random;
 public class Tablero {
 
     private Casilla casillas[][];
-    private Posicion indicesMinas[];
     private int numMinas;
     private Dificultad dificultad;
 
@@ -12,7 +11,6 @@ public class Tablero {
         this.dificultad = dificultad;
         casillas = new Casilla[this.dificultad.getFilas()][this.dificultad.getColumnas()];
         numMinas = dificultad.getMinas();
-        indicesMinas= new Posicion[numMinas];
         this.instanceCells();
         this.generateMines();
         this.detectNearbyMines();
@@ -32,7 +30,6 @@ public class Tablero {
             }
 
             casillas[filaRand][columnaRand].assignMine();
-            indicesMinas[i] = new Posicion(columnaRand,filaRand);
         }
     }
 
@@ -48,7 +45,7 @@ public class Tablero {
                 /*if(!casillas[i][j].getHasMine() && !casillas[i][j].getCovered()){
                     System.out.print(casillas[i][j].getNearbyMines()+" ");
                 }*/
-                if(casillas[i][j].getCovered()){
+                if(casillas[i][j].getCovered() && !casillas[i][j].getHasMine()){
                     System.out.print(casillas[i][j].getNearbyMines() + " ");
                 }
                 if(casillas[i][j].getHasMine()){
@@ -60,20 +57,18 @@ public class Tablero {
     }
 
     public void detectNearbyMines() {
-        final int nearbyMines = 1;
-        boolean specialCell = false;
 
-        for(int i=0;i<indicesMinas.length;i++){
+        for(int i=0;i< dificultad.getColumnas();i++){
+            for(int j=0;j< dificultad.getFilas();j++){
+                int k=i;
+                int l=j;
 
-                for(int j=indicesMinas[i].getNumY()-1;j<=indicesMinas[i].getNumY()+1;j++){
-                    for(int k=indicesMinas[i].getNumX()-1;k<=indicesMinas[i].getNumX()+1;k++){
-                       if(!(j<0 || j+1>= dificultad.getFilas() || k<0 || k+1>= dificultad.getColumnas())){
-                           casillas[indicesMinas[i].getNumY()+k][indicesMinas[i].getNumX()+j].addNearbyMines(nearbyMines);
-                       }
-
+                for(k=(i==0) ? 0 : i-1 ; k <= ((k==dificultad.getColumnas()) ? i : i + 1); k++){
+                    for(l=(j==0) ? 0 : l-1 ; l <= ((l== dificultad.getFilas()) ? j : j + 1);l++){
+                        casillas[j][i].setNearbyMines(1);
                     }
                 }
-
+            }
         }
     }
 
