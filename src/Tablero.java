@@ -81,13 +81,24 @@ public class Tablero {
 
         ArrayList<Casilla> casillasADescubrir = new ArrayList<Casilla>();
         casillasADescubrir.add(casillas[y][x]);
+        Posicion posicion = new Posicion(x,y);
+        int k;
+        int j;
         while (casillasADescubrir.get(0)==null){
+            casillasADescubrir.remove(0);
             if(casillasADescubrir.get(0).getCovered() && !casillasADescubrir.get(0).getFlagged()){
                 casillasADescubrir.get(0).uncover();
-                casillasADescubrir.remove(0);
             }
             if(casillasADescubrir.get(0).getNearbyMines()==0 && !casillasADescubrir.get(0).getCovered()){
-                
+              k = posicion.getNumX();
+              j = posicion.getNumY();
+              for(k=(x==0) ? 0 : x-1; k <= ((k==dificultad.getColumnas()) ? x : x+1); k++){
+                  for(j=(y==0) ? 0 : y-1; j<=((j== dificultad.getFilas()) ? y : y+1); j++){
+                      if(casillas[j][k].getNearbyMines()==0 && !casillas[j][k].getHasMine()){
+                          casillasADescubrir.add(casillas[j][k]);
+                      }
+                  }
+              }
             }
         }
 
@@ -197,28 +208,18 @@ public class Tablero {
         this.casillas = casillas;
     }
 
-    private int getXOfCell(Casilla cell) {
-        int XOfCell = 0;
+    private Posicion getIndexesOfCell(Casilla casilla){
+        Posicion posicion = new Posicion();
         for (int i = 0; i < dificultad.getFilas(); i++) {
-            for (int j = 0; i < dificultad.getColumnas(); j++) {
-                if (cell == casillas[i][j]) {
-                    XOfCell = j;
+            for (int j = 0; j < dificultad.getColumnas(); j++) {
+                if (casilla == casillas[i][j]) {
+                    posicion.setNumX(j);
+                    posicion.setNumY(i);
+                    return posicion;
                 }
             }
         }
-        return XOfCell;
-    }
-
-    private int getYOfCell(Casilla cell) {
-        int YOfCell = 0;
-        for (int i = 0; i < dificultad.getFilas(); i++) {
-            for (int j = 0; i < dificultad.getColumnas(); j++) {
-                if (cell == casillas[i][j]) {
-                    YOfCell = i;
-                }
-            }
-        }
-        return YOfCell;
+        return posicion;
     }
 
 }
