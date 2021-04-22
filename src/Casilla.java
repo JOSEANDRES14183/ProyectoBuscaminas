@@ -9,6 +9,7 @@ public class Casilla {
         this.hasMine=false;
         this.covered=true;
         this.flagged=false;
+        this.nearbyMines=0;
     }
 
     public void uncover(){
@@ -52,8 +53,8 @@ public class Casilla {
         return this.flagged;
     }
 
-    public void setNearbyMines(int nearbyMines){
-        this.nearbyMines+=nearbyMines;
+    public void setNearbyMines(){
+        this.nearbyMines++;
     }
 
     public int getNearbyMines(){return this.nearbyMines;}

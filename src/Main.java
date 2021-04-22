@@ -53,6 +53,7 @@ public class Main {
                     tablero.getCasillas()[axisY][axisX].flag();
                 }
             }
+
         }
     }
 
