@@ -44,7 +44,7 @@ public class Main {
             sc.nextLine();
             if (opc==1){
                 tablero.getCasillas()[axisY][axisX].uncover();
-                //tablero.uncoverNearbyCells(axisX,axisY);
+                tablero.uncoverNearbyCells(axisX,axisY);
             }
             if(opc==2){
                 if(tablero.getCasillas()[axisY][axisX].isFlagged()){

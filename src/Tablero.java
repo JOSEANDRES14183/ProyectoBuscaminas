@@ -48,6 +48,9 @@ public class Tablero {
                 /*if(!casillas[i][j].getHasMine() && !casillas[i][j].getCovered()){
                     System.out.print(casillas[i][j].getNearbyMines()+" ");
                 }*/
+                if(!casillas[i][j].getCovered()){
+                    System.out.print("C"+" ");
+                }
                 if(casillas[i][j].getCovered() && !casillas[i][j].getHasMine()){
                     System.out.print(casillas[i][j].getNearbyMines() + " ");
                 }
@@ -78,27 +81,30 @@ public class Tablero {
     }
 
     public void uncoverNearbyCells(int x, int y) {
-
         ArrayList<Casilla> casillasADescubrir = new ArrayList<Casilla>();
         casillasADescubrir.add(casillas[y][x]);
-        Posicion posicion = new Posicion(x,y);
+        Casilla primeraCasilla = casillas[y][x];
+        Posicion posicion;
         int k;
         int j;
-        while (casillasADescubrir.get(0)==null){
-            casillasADescubrir.remove(0);
-            if(casillasADescubrir.get(0).getCovered() && !casillasADescubrir.get(0).getFlagged()){
+        while (casillasADescubrir.get(0)!=null){
+            posicion=getIndexesOfCell(casillasADescubrir.get(0));
+
+            if(casillasADescubrir.get(0).getCovered() && !casillasADescubrir.get(0).getFlagged()){ // si és una nova
                 casillasADescubrir.get(0).uncover();
+                casillasADescubrir.remove(0);
             }
             if(casillasADescubrir.get(0).getNearbyMines()==0 && !casillasADescubrir.get(0).getCovered()){
-              k = posicion.getNumX();
-              j = posicion.getNumY();
-              for(k=(x==0) ? 0 : x-1; k <= ((k==dificultad.getColumnas()) ? x : x+1); k++){
-                  for(j=(y==0) ? 0 : y-1; j<=((j== dificultad.getFilas()) ? y : y+1); j++){
-                      if(casillas[j][k].getNearbyMines()==0 && !casillas[j][k].getHasMine()){
-                          casillasADescubrir.add(casillas[j][k]);
-                      }
-                  }
-              }
+                k = posicion.getNumX();
+                j = posicion.getNumY();
+                for(k=(x==0) ? 0 : x-1; k <= ((k==dificultad.getColumnas()) ? x : x+1); k++){
+                    for(j=(y==0) ? 0 : y-1; j<=((j== dificultad.getFilas()) ? y : y+1); j++){
+                        if(casillas[j][k].getNearbyMines()==0 && !casillas[j][k].getHasMine() && casillas[j][k]!=casillasADescubrir.get(0)) {
+                            casillasADescubrir.add(casillas[j][k]);
+                        }
+                    }
+                }
+                casillasADescubrir.remove(0);
             }
         }
 
