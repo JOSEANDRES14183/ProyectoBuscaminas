@@ -39,16 +39,16 @@ public class Tablero {
     public void printTablero() {
         for (int i = 0; i < dificultad.getFilas(); i++) {
             for (int j = 0; j < dificultad.getColumnas(); j++) {
-                /*if (casillas[i][j].getCovered()) {
+                if (casillas[i][j].getCovered()) {
                     System.out.print("■ ");
-                }*/
+                }
                 if (casillas[i][j].getFlagged()) {
                     System.out.print("▓ ");
                 }
-                /*if(!casillas[i][j].getHasMine() && !casillas[i][j].getCovered()){
+                if(!casillas[i][j].getHasMine() && !casillas[i][j].getCovered()){
                     System.out.print(casillas[i][j].getNearbyMines()+" ");
-                }*/
-                if(!casillas[i][j].getCovered()){
+                }
+               /* if(!casillas[i][j].getCovered()){
                     System.out.print("C"+" ");
                 }
                 if(casillas[i][j].getCovered() && !casillas[i][j].getHasMine()){
@@ -56,7 +56,7 @@ public class Tablero {
                 }
                 if(casillas[i][j].getHasMine()){
                     System.out.print("X" + " ");
-                }
+                }*/
             }
             System.out.println();
         }
@@ -82,24 +82,30 @@ public class Tablero {
 
     public void uncoverNearbyCells(int x, int y) {
         ArrayList<Casilla> casillasADescubrir = new ArrayList<Casilla>();
+        boolean posicionesCeldasYaDescubiertas[][] = new boolean[this.dificultad.getFilas()][this.dificultad.getColumnas()];
         casillasADescubrir.add(casillas[y][x]);
-        Casilla primeraCasilla = casillas[y][x];
         Posicion posicion;
+        Posicion posicionAux;
         int k;
         int j;
-        while (casillasADescubrir.get(0)!=null){
+        while (casillasADescubrir.size()!=0){
+
             posicion=getIndexesOfCell(casillasADescubrir.get(0));
 
-            if(casillasADescubrir.get(0).getCovered() && !casillasADescubrir.get(0).getFlagged()){ // si és una nova
-                casillasADescubrir.get(0).uncover();
-                casillasADescubrir.remove(0);
+            for(Casilla casilla: casillasADescubrir){
+                if(casilla.getCovered()){
+                    casilla.uncover();
+                    posicionAux=getIndexesOfCell(casilla);
+                    posicionesCeldasYaDescubiertas[posicionAux.getNumY()][posicionAux.getNumX()]=true;
+                }
             }
-            if(casillasADescubrir.get(0).getNearbyMines()==0 && !casillasADescubrir.get(0).getCovered()){
+
+            if(casillasADescubrir.get(0).getNearbyMines()==0){
                 k = posicion.getNumX();
                 j = posicion.getNumY();
-                for(k=(x==0) ? 0 : x-1; k <= ((k==dificultad.getColumnas()) ? x : x+1); k++){
-                    for(j=(y==0) ? 0 : y-1; j<=((j== dificultad.getFilas()) ? y : y+1); j++){
-                        if(casillas[j][k].getNearbyMines()==0 && !casillas[j][k].getHasMine() && casillas[j][k]!=casillasADescubrir.get(0)) {
+                for(k=(posicion.getNumX()==0) ? 0 : posicion.getNumX()-1; k <= ((k==dificultad.getColumnas()) ? posicion.getNumX() : posicion.getNumX()+1); k++){
+                    for(j=(posicion.getNumY()==0) ? 0 : posicion.getNumY()-1; j<=((j== dificultad.getFilas()) ? posicion.getNumY() : posicion.getNumY()+1); j++){
+                        if(casillas[j][k].getNearbyMines()==0 && !casillas[j][k].getHasMine() && casillas[j][k]!=casillasADescubrir.get(0) && !posicionesCeldasYaDescubiertas[j][k]) {
                             casillasADescubrir.add(casillas[j][k]);
                         }
                     }
@@ -107,88 +113,6 @@ public class Tablero {
                 casillasADescubrir.remove(0);
             }
         }
-
-       /* ArrayList<Casilla> uncoveredCells = new ArrayList();
-
-        if (y == 0 && x == 0) {
-            if (casillas[y + 1][x].getNearbyMines() == 0 && !casillas[y + 1][x].getHasMine() && casillas[y + 1][x].getCovered()) {
-                uncoveredCells.add(casillas[y + 1][x]);
-            }
-            if (casillas[y][x + 1].getNearbyMines() == 0 && !casillas[y][x + 1].getHasMine() && casillas[y][x + 1].getCovered()) {
-                uncoveredCells.add(casillas[y][x + 1]);
-            }
-            if (casillas[y + 1][x + 1].getNearbyMines() == 0 && !casillas[y + 1][x + 1].getHasMine() && casillas[y + 1][x + 1].getCovered()) {
-                uncoveredCells.add(casillas[y + 1][x + 1]);
-            }
-        }
-
-        if (y == 0 && x != 0 && x != dificultad.getColumnas() - 1) {
-            if (casillas[y][x + 1].getNearbyMines() == 0 && !casillas[y][x + 1].getHasMine() && casillas[y][x + 1].getCovered()) {
-                uncoveredCells.add(casillas[y][x + 1]);
-            }
-            if (casillas[y][x - 1].getNearbyMines() == 0 && !casillas[y][x - 1].getHasMine() && casillas[y][x - 1].getCovered()) {
-                uncoveredCells.add(casillas[y][x - 1]);
-            }
-            if (casillas[y + 1][x].getNearbyMines() == 0 && !casillas[y + 1][x].getHasMine() && casillas[y + 1][x].getCovered()) {
-                uncoveredCells.add(casillas[y + 1][x]);
-            }
-            if (casillas[y + 1][x - 1].getNearbyMines() == 0 && !casillas[y + 1][x - 1].getHasMine() && casillas[y + 1][x - 1].getCovered()) {
-                uncoveredCells.add(casillas[y + 1][x - 1]);
-            }
-            if (casillas[y + 1][x + 1].getNearbyMines() == 0 && !casillas[y + 1][x + 1].getHasMine() && casillas[y + 1][x + 1].getCovered()) {
-                uncoveredCells.add(casillas[y + 1][x + 1]);
-            }
-        }
-
-        /*if (y != 0 && y != dificultad.getFilas() - 1 && x == 0) {
-            if (casillas[y + 1][x].getNearbyMines() == 0 && !casillas[y + 1][x].getHasMine() && casillas[y + 1][x].getCovered()) {
-                uncoveredCells.add(casillas[y + 1][x]);
-            }
-            if (casillas[y - 1][x].getNearbyMines() == 0 && !casillas[y - 1][x].getHasMine() && casillas[y - 1][x].getCovered()) {
-                uncoveredCells.add(casillas[y - 1][x]);
-            }
-            if (casillas[y + 1][x + 1].getHasMine()) {
-                nearbyMines++;
-            }
-            if (casillas[y - 1][x + 1].getHasMine()) {
-                nearbyMines++;
-            }
-            if (casillas[y][x + 1].getHasMine()) {
-                nearbyMines++;
-            }
-            specialCell = true;
-        }
-
-
-        if (casillas[y - 1][x].getNearbyMines() == 0 && !casillas[y - 1][x].getHasMine() && casillas[y - 1][x].getCovered()) {
-            uncoveredCells.add(casillas[y - 1][x]);
-        }
-        if (casillas[y + 1][x].getNearbyMines() == 0 && !casillas[y + 1][x].getHasMine() && casillas[y + 1][x].getCovered()) {
-            uncoveredCells.add(casillas[y + 1][x]);
-        }
-        if (casillas[y][x + 1].getNearbyMines() == 0 && !casillas[y][x + 1].getHasMine() && casillas[y][x + 1].getCovered()) {
-            uncoveredCells.add(casillas[y][x + 1]);
-        }
-        if (casillas[y][x - 1].getNearbyMines() == 0 && !casillas[y][x - 1].getHasMine() && casillas[y][x - 1].getCovered()) {
-            uncoveredCells.add(casillas[y][x - 1]);
-        }
-        if (casillas[y - 1][x - 1].getNearbyMines() == 0 && !casillas[y - 1][x - 1].getHasMine() && casillas[y - 1][x - 1].getCovered()) {
-            uncoveredCells.add(casillas[y - 1][x - 1]);
-        }
-        if (casillas[y - 1][x + 1].getNearbyMines() == 0 && !casillas[y - 1][x + 1].getHasMine() && casillas[y - 1][x + 1].getCovered()) {
-            uncoveredCells.add(casillas[y - 1][x + 1]);
-        }
-        if (casillas[y + 1][x - 1].getNearbyMines() == 0 && !casillas[y + 1][x - 1].getHasMine() && casillas[y + 1][x + 1].getCovered()) {
-            uncoveredCells.add(casillas[y + 1][x - 1]);
-        }
-        if (casillas[y + 1][x + 1].getNearbyMines() == 0 && !casillas[y + 1][x + 1].getHasMine() && casillas[y + 1][x + 1].getCovered()) {
-            uncoveredCells.add(casillas[y + 1][x + 1]);
-        }
-
-        for (Casilla cell : uncoveredCells) {
-            cell.uncover();
-            uncoverNearbyCells(getXOfCell(cell), getYOfCell(cell));
-        }*/
     }
 
 
