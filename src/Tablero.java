@@ -8,18 +8,22 @@ public class Tablero {
     private Casilla casillas[][];
     private int numMinas;
     private Dificultad dificultad;
+    private int casillasPorDescubrir;
 
     public Tablero(Dificultad dificultad) {
         this.dificultad = dificultad;
         casillas = new Casilla[this.dificultad.getFilas()][this.dificultad.getColumnas()];
         numMinas = dificultad.getMinas();
+        casillasPorDescubrir= (dificultad.getFilas() * dificultad.getColumnas()) - numMinas;
         this.instanceCells();
-        this.generateMines();
-        //this.printTablero();
+    }
+
+    public void completarTablero(int x, int y){
+        this.generateMines(x,y);
         this.detectNearbyMines();
     }
 
-    public void generateMines() {
+    public void generateMines(int x, int y) {
         int filaRand;
         int columnaRand;
 
@@ -27,7 +31,7 @@ public class Tablero {
             filaRand = getRandomNumber(dificultad.getFilas());
             columnaRand = getRandomNumber(dificultad.getColumnas());
 
-            while (casillas[filaRand][columnaRand].getHasMine()) {
+            while (casillas[filaRand][columnaRand].getHasMine() && casillas[filaRand][columnaRand]!=casillas[y][x]) {
                 filaRand = getRandomNumber(dificultad.getFilas());
                 columnaRand = getRandomNumber(dificultad.getColumnas());
             }
@@ -39,7 +43,7 @@ public class Tablero {
     public void printTablero() {
         for (int i = 0; i < dificultad.getFilas(); i++) {
             for (int j = 0; j < dificultad.getColumnas(); j++) {
-                if (casillas[i][j].getCovered()) {
+                /*if (casillas[i][j].getCovered()) {
                     System.out.print("■ ");
                 }
                 if (casillas[i][j].getFlagged()) {
@@ -47,8 +51,9 @@ public class Tablero {
                 }
                 if(!casillas[i][j].getHasMine() && !casillas[i][j].getCovered()){
                     System.out.print(casillas[i][j].getNearbyMines()+" ");
-                }
-               /* if(!casillas[i][j].getCovered()){
+                }*/
+
+               if(!casillas[i][j].getCovered()){
                     System.out.print("C"+" ");
                 }
                 if(casillas[i][j].getCovered() && !casillas[i][j].getHasMine()){
@@ -56,7 +61,7 @@ public class Tablero {
                 }
                 if(casillas[i][j].getHasMine()){
                     System.out.print("X" + " ");
-                }*/
+                }
             }
             System.out.println();
         }
@@ -150,6 +155,10 @@ public class Tablero {
             }
         }
         return posicion;
+    }
+
+    public int getCasillasPorDescubrir(){
+        return this.casillasPorDescubrir;
     }
 
 }
