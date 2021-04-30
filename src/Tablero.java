@@ -70,16 +70,36 @@ public class Tablero {
                     System.out.print("C"+" ");
                 }
                 if(casillas[i][j].getCovered() && !casillas[i][j].getHasMine()){
-                    if(casillas[i][j].getNearbyMines()==0){}
-                    if(casillas[i][j].getNearbyMines()==1){}
-                    if(casillas[i][j].getNearbyMines()==2){}
-                    if(casillas[i][j].getNearbyMines()==3){}
-                    if(casillas[i][j].getNearbyMines()==4){}
-                    if(casillas[i][j].getNearbyMines()==5){}
-                    if(casillas[i][j].getNearbyMines()==6){}
-                    if(casillas[i][j].getNearbyMines()==7){}
-                    if(casillas[i][j].getNearbyMines()==8){}
-                    if(casillas[i][j].getNearbyMines()==9){}
+                    if(casillas[i][j].getNearbyMines()==0){
+                        System.out.print(Colores.YELLOW + casillas[i][j].getNearbyMines() + " " + Colores.RESET);
+                    }
+                    if(casillas[i][j].getNearbyMines()==1){
+                        System.out.print(Colores.BLUE + casillas[i][j].getNearbyMines() + " " + Colores.RESET);
+                    }
+                    if(casillas[i][j].getNearbyMines()==2){
+                        System.out.print(Colores.GREEN + casillas[i][j].getNearbyMines() + " " + Colores.RESET);
+                    }
+                    if(casillas[i][j].getNearbyMines()==3){
+                        System.out.print(Colores.RED + casillas[i][j].getNearbyMines() + " " + Colores.RESET);
+                    }
+                    if(casillas[i][j].getNearbyMines()==4){
+                        System.out.print(Colores.BLUE_BOLD + casillas[i][j].getNearbyMines() + " " + Colores.RESET);
+                    }
+                    if(casillas[i][j].getNearbyMines()==5){
+                        System.out.print(Colores.CYAN + casillas[i][j].getNearbyMines() + " " + Colores.RESET);
+                    }
+                    if(casillas[i][j].getNearbyMines()==6){
+                        System.out.print(Colores.PURPLE + casillas[i][j].getNearbyMines() + " " + Colores.RESET);
+                    }
+                    if(casillas[i][j].getNearbyMines()==7){
+                        System.out.print(Colores.WHITE + casillas[i][j].getNearbyMines() + " " + Colores.RESET);
+                    }
+                    if(casillas[i][j].getNearbyMines()==8){
+                        System.out.print(Colores.BLACK + casillas[i][j].getNearbyMines() + " " + Colores.RESET);
+                    }
+                    if(casillas[i][j].getNearbyMines()==9){
+                        System.out.print(Colores.YELLOW_BOLD + casillas[i][j].getNearbyMines() + " " + Colores.RESET);
+                    }
                 }
                 if(casillas[i][j].getHasMine()){
                     System.out.print("X" + " ");
@@ -181,6 +201,10 @@ public class Tablero {
 
     public int getCasillasPorDescubrir(){
         return this.casillasPorDescubrir;
+    }
+
+    public void reducirCasillasPorDescubrir(){
+        this.casillasPorDescubrir--;
     }
 
 }
