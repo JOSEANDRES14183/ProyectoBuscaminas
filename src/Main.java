@@ -35,6 +35,8 @@ public class Main {
                 System.out.println("Establece el número de minas");
                 int minasCustom=sc.nextInt();
                 sc.nextLine();
+                tablero = new Tablero(filasCustom,columnasCustom,minasCustom);
+                break;
 
             default:
                 tablero = new Tablero(Dificultad.MEDIA);

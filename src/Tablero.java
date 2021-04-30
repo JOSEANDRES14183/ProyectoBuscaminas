@@ -6,15 +6,28 @@ import java.util.Random;
 public class Tablero {
 
     private Casilla casillas[][];
+    private int filas;
+    private int columnas;
     private int numMinas;
     private Dificultad dificultad;
     private int casillasPorDescubrir;
 
     public Tablero(Dificultad dificultad) {
         this.dificultad = dificultad;
-        casillas = new Casilla[this.dificultad.getFilas()][this.dificultad.getColumnas()];
+        this.filas = dificultad.getFilas();
+        this.columnas = dificultad.getColumnas();
+        casillas = new Casilla[filas][columnas];
         numMinas = dificultad.getMinas();
-        casillasPorDescubrir= (dificultad.getFilas() * dificultad.getColumnas()) - numMinas;
+        casillasPorDescubrir= (this.filas * this.columnas) - this.numMinas;
+        this.instanceCells();
+    }
+
+    public Tablero(int filas, int columnas, int minas){
+        this.filas=filas;
+        this.columnas=columnas;
+        casillas = new Casilla[filas][columnas];
+        numMinas=minas;
+        casillasPorDescubrir= (this.filas * this.columnas) - this.numMinas;
         this.instanceCells();
     }
 
@@ -28,12 +41,12 @@ public class Tablero {
         int columnaRand;
 
         for (int i = 0; i < numMinas; i++) {
-            filaRand = getRandomNumber(dificultad.getFilas());
-            columnaRand = getRandomNumber(dificultad.getColumnas());
+            filaRand = getRandomNumber(this.filas);
+            columnaRand = getRandomNumber(this.columnas);
 
             while (casillas[filaRand][columnaRand].getHasMine() && casillas[filaRand][columnaRand]!=casillas[y][x]) {
-                filaRand = getRandomNumber(dificultad.getFilas());
-                columnaRand = getRandomNumber(dificultad.getColumnas());
+                filaRand = getRandomNumber(this.filas);
+                columnaRand = getRandomNumber(this.columnas);
             }
 
             casillas[filaRand][columnaRand].assignMine();
@@ -41,8 +54,8 @@ public class Tablero {
     }
 
     public void printTablero() {
-        for (int i = 0; i < dificultad.getFilas(); i++) {
-            for (int j = 0; j < dificultad.getColumnas(); j++) {
+        for (int i = 0; i < this.filas; i++) {
+            for (int j = 0; j < this.columnas; j++) {
                 /*if (casillas[i][j].getCovered()) {
                     System.out.print("■ ");
                 }
@@ -57,7 +70,16 @@ public class Tablero {
                     System.out.print("C"+" ");
                 }
                 if(casillas[i][j].getCovered() && !casillas[i][j].getHasMine()){
-                    System.out.print(casillas[i][j].getNearbyMines() + " ");
+                    if(casillas[i][j].getNearbyMines()==0){}
+                    if(casillas[i][j].getNearbyMines()==1){}
+                    if(casillas[i][j].getNearbyMines()==2){}
+                    if(casillas[i][j].getNearbyMines()==3){}
+                    if(casillas[i][j].getNearbyMines()==4){}
+                    if(casillas[i][j].getNearbyMines()==5){}
+                    if(casillas[i][j].getNearbyMines()==6){}
+                    if(casillas[i][j].getNearbyMines()==7){}
+                    if(casillas[i][j].getNearbyMines()==8){}
+                    if(casillas[i][j].getNearbyMines()==9){}
                 }
                 if(casillas[i][j].getHasMine()){
                     System.out.print("X" + " ");
@@ -69,13 +91,13 @@ public class Tablero {
 
     public void detectNearbyMines() {
 
-        for(int i=0;i< dificultad.getColumnas();i++){
-            for(int j=0;j< dificultad.getFilas();j++){
+        for(int i=0;i< this.columnas;i++){
+            for(int j=0;j< this.filas;j++){
                 int k=i;
                 int l=j;
 
-                for(k=(i==0) ? 0 : i-1 ; k <= ((k==dificultad.getColumnas()) ? i : i + 1); k++){
-                    for(l=(j==0) ? 0 : j-1 ; l <= ((l== dificultad.getFilas()) ? j : j + 1);l++){
+                for(k=(i==0) ? 0 : i-1 ; k <= ((k==this.columnas) ? i : i + 1); k++){
+                    for(l=(j==0) ? 0 : j-1 ; l <= ((l==this.filas) ? j : j + 1);l++){
                         if(casillas[l][k].getHasMine() && casillas[l][k]!=casillas[j][i]){
                             casillas[j][i].setNearbyMines();
                         }
@@ -87,7 +109,7 @@ public class Tablero {
 
     public void uncoverNearbyCells(int x, int y) {
         ArrayList<Casilla> casillasADescubrir = new ArrayList<Casilla>();
-        boolean posicionesCeldasYaDescubiertas[][] = new boolean[this.dificultad.getFilas()][this.dificultad.getColumnas()];
+        boolean posicionesCeldasYaDescubiertas[][] = new boolean[this.filas][this.columnas];
         casillasADescubrir.add(casillas[y][x]);
         Posicion posicion;
         Posicion posicionAux;
@@ -108,8 +130,8 @@ public class Tablero {
             if(casillasADescubrir.get(0).getNearbyMines()==0){
                 k = posicion.getNumX();
                 j = posicion.getNumY();
-                for(k=(posicion.getNumX()==0) ? 0 : posicion.getNumX()-1; k <= ((k==dificultad.getColumnas()) ? posicion.getNumX() : posicion.getNumX()+1); k++){
-                    for(j=(posicion.getNumY()==0) ? 0 : posicion.getNumY()-1; j<=((j== dificultad.getFilas()) ? posicion.getNumY() : posicion.getNumY()+1); j++){
+                for(k=(posicion.getNumX()==0) ? 0 : posicion.getNumX()-1; k <= ((k==this.columnas) ? posicion.getNumX() : posicion.getNumX()+1); k++){
+                    for(j=(posicion.getNumY()==0) ? 0 : posicion.getNumY()-1; j<=((j==this.filas) ? posicion.getNumY() : posicion.getNumY()+1); j++){
                         if(casillas[j][k].getNearbyMines()==0 && !casillas[j][k].getHasMine() && casillas[j][k]!=casillasADescubrir.get(0) && !posicionesCeldasYaDescubiertas[j][k]) {
                             casillasADescubrir.add(casillas[j][k]);
                         }
@@ -122,8 +144,8 @@ public class Tablero {
 
 
     private void instanceCells() {
-        for (int i = 0; i < dificultad.getFilas(); i++) {
-            for (int j = 0; j < dificultad.getColumnas(); j++) {
+        for (int i = 0; i < this.filas; i++) {
+            for (int j = 0; j < this.columnas; j++) {
                 Casilla casilla = new Casilla();
                 casillas[i][j] = casilla;
             }
@@ -145,8 +167,8 @@ public class Tablero {
 
     private Posicion getIndexesOfCell(Casilla casilla){
         Posicion posicion = new Posicion();
-        for (int i = 0; i < dificultad.getFilas(); i++) {
-            for (int j = 0; j < dificultad.getColumnas(); j++) {
+        for (int i = 0; i < this.filas; i++) {
+            for (int j = 0; j < this.columnas; j++) {
                 if (casilla == casillas[i][j]) {
                     posicion.setNumX(j);
                     posicion.setNumY(i);
